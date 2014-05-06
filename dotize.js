@@ -5,7 +5,7 @@ dotize.convert = function(jsonobj, prefix) {
     function recurse(o, p) {
         for (var f in o) {
             if (o[f] && typeof o[f] === "object") {
-                newobj = recurse(o[f], p + "." + f);
+                newobj = recurse(o[f], (p ? p  + "." : "") + f);
             } else {
                 newobj[p + "." + f] = o[f];
             }
