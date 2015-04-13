@@ -18,7 +18,7 @@ dotize.convert = function(jsonobj, prefix) {
                 if (isArrayItem)
                     newobj[p + "[" + f + "]"] = o[f]; // array item primitive
                 else
-                    newobj[p + "." + f] = o[f]; // primitive
+                    newobj[(p ? p + "." : "") + f] = o[f]; // primitive
             }
         }
         return newobj;
