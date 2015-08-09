@@ -1,0 +1,4 @@
+before_script:
+  - sudo npm install -g mocha
+
+script: mocha tests-mocha.js
