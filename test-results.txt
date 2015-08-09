@@ -24,6 +24,11 @@
     √ complex with child
     √ complex with Array
 
+  Array
+    √ basic
+    √ with prefix
+    √ Array of Arrays
 
-  14 passing (14ms)
+
+  17 passing (15ms)
 

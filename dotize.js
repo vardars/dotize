@@ -17,7 +17,7 @@ dotize.convert = function(obj, prefix) {
         for (var f in o) {
             if (o[f] && typeof o[f] === "object") {
                 if (Array.isArray(o[f]))
-                    newObj = recurse(o[f], (p ? p + "." : "") + f, true); // array
+                    newObj = recurse(o[f], (p ? p : "") + (isNumber(f) ? "[" + f + "]" : "." + f), true); // array
                 else {
                     if (isArrayItem)
                         newObj = recurse(o[f], (p ? p : "") + "[" + f + "]"); // array item object
@@ -25,13 +25,17 @@ dotize.convert = function(obj, prefix) {
                         newObj = recurse(o[f], (p ? p + "." : "") + f); // object
                 }
             } else {
-                if (isArrayItem)
+                if (isArrayItem || isNumber(f))
                     newObj[p + "[" + f + "]"] = o[f]; // array item primitive
                 else
                     newObj[(p ? p + "." : "") + f] = o[f]; // primitive
             }
         }
         return newObj;
+    }
+
+    function isNumber(f){
+        return !isNaN(parseInt(f));
     }
 
     return recurse(obj, prefix);

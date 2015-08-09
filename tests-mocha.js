@@ -143,6 +143,36 @@ var testArray = [
         }
       }
     ]
+  },
+  {
+    "name": "Array",
+    "tests": [
+      {
+        "name" : "basic",
+        "source": [1],
+        "target": {
+          "[0]": 1
+        }
+      },
+      {
+        "name" : "with prefix",
+        "prefix": "foo",
+        "source": {
+          "a": [1]
+        },
+        "target": {
+          "foo.a[0]": 1
+        }
+      },
+      {
+        "name" : "Array of Arrays",
+        "prefix": "foo",
+        "source": [[1]],
+        "target": {
+          "foo[0][0]": 1,
+        }
+      }
+    ]
   }
 ];
 
