@@ -1,0 +1,29 @@
+
+
+  primitive
+    √ number
+    √ string
+    √ boolean
+
+  primitive with prefix
+    √ number
+    √ string
+    √ boolean
+
+  null
+    √ without prefix
+    √ with prefix
+
+  object
+    √ basic
+    √ complex with child
+    √ complex with Array
+
+  object with prefix
+    √ basic
+    √ complex with child
+    √ complex with Array
+
+
+  14 passing (14ms)
+
