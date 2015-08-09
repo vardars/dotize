@@ -25,4 +25,4 @@ tests
 =====
 
     npm install -g mocha
-    mocha tests-mocha.js
+    mocha test/test.js

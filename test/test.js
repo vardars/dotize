@@ -1,5 +1,5 @@
 var assert = require("assert");
-var dotize = require("./dotize.js");
+var dotize = require("../src/dotize.js");
 
 var testArray = [
   {
