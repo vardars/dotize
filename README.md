@@ -18,3 +18,9 @@ to (Dot notation JSON object)
       "auth.code": "23123213",
       "auth.name": "qwerty asdfgh"
     }
+
+tests
+=====
+
+    npm install -g mocha
+    mocha tests-mocha.js
