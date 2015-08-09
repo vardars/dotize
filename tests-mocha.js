@@ -148,6 +148,11 @@ var testArray = [
     "name": "Array",
     "tests": [
       {
+        "name" : "empty",
+        "source": [],
+        "target": []
+      },
+      {
         "name" : "basic",
         "source": [1],
         "target": {

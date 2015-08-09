@@ -31,11 +31,24 @@ dotize.convert = function(obj, prefix) {
                     newObj[(p ? p + "." : "") + f] = o[f]; // primitive
             }
         }
+
+        if (isEmptyObj(newObj))
+            return obj;
+
         return newObj;
     }
 
     function isNumber(f){
         return !isNaN(parseInt(f));
+    }
+
+    function isEmptyObj(obj) {
+        for(var prop in obj) {
+            if(obj.hasOwnProperty(prop))
+                return false;
+        }
+
+        return true;
     }
 
     return recurse(obj, prefix);

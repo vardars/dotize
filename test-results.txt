@@ -25,10 +25,11 @@
     √ complex with Array
 
   Array
+    √ empty
     √ basic
     √ with prefix
     √ Array of Arrays
 
 
-  17 passing (15ms)
+  18 passing (15ms)
 
