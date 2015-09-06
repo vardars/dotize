@@ -3,6 +3,38 @@ var dotize = require("../src/dotize.js");
 
 var testArray = [
   {
+    "name": "issue",
+    "tests": [
+      {
+        "name": "weird array",
+        "source": [
+          {
+            "foo": "bar"
+          },
+          0,
+          null,
+          {
+            "null": null,
+            "array": [
+              {},
+              []
+            ],
+            "aFunction": function () {}
+          }
+        ],
+        "target": {
+          "[0].foo": "bar",
+          "[1]": 0,
+          "[2]": null,
+          "[3].null": null,
+          "[3].array[0]": {},
+          "[3].array[1]": [],
+          "[3].aFunction": function() {},
+        }
+      }
+    ]
+  },
+  {
     "name": "primitive",
     "tests": [
       {
@@ -189,10 +221,15 @@ for (var i = 0; i < testArray.length; i++) {
       var testItem = testGroup.tests[j];
 
       it(testItem.name, function () {
-        if (testItem.prefix)
-          assert.deepEqual(testItem.target, dotize.convert(testItem.source, testItem.prefix));
-        else
-          assert.deepEqual(testItem.target, dotize.convert(testItem.source));
+        if (testItem.prefix) {
+          var result = dotize.convert(testItem.source, testItem.prefix);
+          //console.log("result 1 " + JSON.stringify(result));
+          assert.deepEqual(testItem.target, result);
+        } else {
+          var result = dotize.convert(testItem.source);
+          //console.log("result 2 " + JSON.stringify(result));
+          assert.deepEqual(testItem.target, result);
+        }
       });
     };
   });
