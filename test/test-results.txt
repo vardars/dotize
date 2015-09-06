@@ -30,6 +30,9 @@
     √ with prefix
     √ Array of Arrays
 
+  issues
+    √ #6 - weird array
 
-  18 passing (15ms)
+
+  19 passing (15ms)
 
