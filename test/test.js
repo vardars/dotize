@@ -178,7 +178,37 @@ var testArray = [
         }
       }
     ]
-  }
+  },
+  {
+    "name": "issues",
+    "tests": [
+      {
+        "name": "#6 - weird array",
+        "source": [
+          {
+            "foo": "bar"
+          },
+          0,
+          null,
+          {
+            "null": null,
+            "array": [
+              {},
+              []
+            ],
+          }
+        ],
+        "target": {
+          "[0].foo": "bar",
+          "[1]": 0,
+          "[2]": null,
+          "[3].null": null,
+          "[3].array[0]": {},
+          "[3].array[1]": [],
+        }
+      }
+    ]
+  },
 ];
 
 for (var i = 0; i < testArray.length; i++) {
@@ -189,10 +219,12 @@ for (var i = 0; i < testArray.length; i++) {
       var testItem = testGroup.tests[j];
 
       it(testItem.name, function () {
+        var result = null;
         if (testItem.prefix)
-          assert.deepEqual(testItem.target, dotize.convert(testItem.source, testItem.prefix));
+          result = dotize.convert(testItem.source, testItem.prefix);
         else
-          assert.deepEqual(testItem.target, dotize.convert(testItem.source));
+          result = dotize.convert(testItem.source);
+        assert.deepEqual(testItem.target, result);
       });
     };
   });
