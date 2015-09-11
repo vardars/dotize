@@ -8,7 +8,7 @@ Convert (Complex JSON object)
     {
       "status": "success",
       "auth": {
-        "code": "23123213",
+        "code": 123,
         "name": "qwerty asdfgh"
       }
     }
@@ -17,7 +17,7 @@ to (Dot notation JSON object)
 
     {
       "status": "success",
-      "auth.code": "23123213",
+      "auth.code": 123,
       "auth.name": "qwerty asdfgh"
     }
 
