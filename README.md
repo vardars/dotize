@@ -3,7 +3,7 @@
 dotize
 =
 
-Convert (Complex JSON object)
+Convert (Complex js object)
 
     {
       "status": "success",
@@ -13,7 +13,7 @@ Convert (Complex JSON object)
       }
     }
 
-to (Dot notation JSON object)
+to (Dot notation js object)
 
     {
       "status": "success",
