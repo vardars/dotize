@@ -23,7 +23,7 @@ to (Dot notation JSON object)
 
 npm
 =
-npm install dotize
+    npm install dotize
 
 tests
 =
