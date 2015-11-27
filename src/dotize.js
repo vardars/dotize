@@ -1,14 +1,15 @@
 // https://github.com/vardars/dotize
 var dotize = dotize || {};
+
 dotize.convert = function(obj, prefix) {
-    if ((!obj || typeof obj != "object") && !Array.isArray(obj)){
-        if (prefix){
+    if ((!obj || typeof obj != "object") && !Array.isArray(obj)) {
+        if (prefix) {
             var newObj = {};
             newObj[prefix] = obj;
             return newObj;
-        }
-        else
+        } else {
             return obj;
+        }
     }
 
     var newObj = {};
@@ -16,32 +17,33 @@ dotize.convert = function(obj, prefix) {
     function recurse(o, p, isArrayItem) {
         for (var f in o) {
             if (o[f] && typeof o[f] === "object") {
-                if (Array.isArray(o[f])){
-                    if (isEmptyArray(o[f])){
+                if (Array.isArray(o[f])) {
+                    if (isEmptyArray(o[f])) {
                         newObj[getFieldName(f, p, true)] = o[f]; // empty array
                     } else {
                         newObj = recurse(o[f], getFieldName(f, p, false, true), true); // array
                     }
-                }
-                else {
-                    if (isArrayItem){
-                        if (isEmptyObj(o[f]))
+                } else {
+                    if (isArrayItem) {
+                        if (isEmptyObj(o[f])) {
                             newObj[getFieldName(f, p, true)] = o[f]; // empty object
-                        else
+                        } else {
                             newObj = recurse(o[f], getFieldName(f, p, true)); // array item object
-                    }
-                    else {
-                        if (isEmptyObj(o[f]))
+                        }
+                    } else {
+                        if (isEmptyObj(o[f])) {
                             newObj[getFieldName(f, p)] = o[f]; // empty object
-                        else
+                        } else {
                             newObj = recurse(o[f], getFieldName(f, p)); // object
+                        }
                     }
                 }
             } else {
-                if (isArrayItem || isNumber(f))
+                if (isArrayItem || isNumber(f)) {
                     newObj[getFieldName(f, p, true)] = o[f]; // array item primitive
-                else
+                } else {
                     newObj[getFieldName(f, p)] = o[f]; // primitive
+                }
             }
         }
 
@@ -51,26 +53,26 @@ dotize.convert = function(obj, prefix) {
         return newObj;
     }
 
-    function isNumber(f){
+    function isNumber(f) {
         return !isNaN(parseInt(f));
     }
 
     function isEmptyObj(obj) {
-        for(var prop in obj) {
-            if(obj.hasOwnProperty(prop))
+        for (var prop in obj) {
+            if (obj.hasOwnProperty(prop))
                 return false;
         }
 
         return true;
     }
 
-    function isEmptyArray(o){
+    function isEmptyArray(o) {
         if (Array.isArray(o) && o.length == 0)
             return true;
         return false;
     }
 
-    function getFieldName(field, prefix, isArrayItem, isArray){
+    function getFieldName(field, prefix, isArrayItem, isArray) {
         if (isArray)
             return (prefix ? prefix : "") + (isNumber(field) ? "[" + field + "]" : "." + field);
         else if (isArrayItem)
@@ -82,6 +84,6 @@ dotize.convert = function(obj, prefix) {
     return recurse(obj, prefix, Array.isArray(obj));
 };
 
-if (typeof module != "undefined"){
+if (typeof module != "undefined") {
     module.exports = dotize;
 }
