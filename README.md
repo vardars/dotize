@@ -21,11 +21,11 @@ to (Dot notation js object)
       "auth.name": "qwerty asdfgh"
     }
 
-npm
+[npm](https://www.npmjs.com/package/dotize)
 =
     npm install dotize
 
-tests
+[tests](https://travis-ci.org/vardars/dotize)
 =
 
     npm install -g mocha
