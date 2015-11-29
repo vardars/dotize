@@ -59,7 +59,7 @@ dotize.convert = function(obj, prefix) {
 
     function isEmptyObj(obj) {
         for (var prop in obj) {
-            if (obj.hasOwnProperty(prop))
+            if (Object.hasOwnProperty.call(obj, prop))
                 return false;
         }
 
