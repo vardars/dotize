@@ -62,24 +62,22 @@
             </div>
         </div>
     </div>
-
 </script>
 
-
 {% if site.custom_pom_template %}
-{% capture maven_pom_template %}
-{% include pom.xml %}
-{% endcapture %}
+    {% capture maven_pom_template %}
+        {% include pom.xml %}
+    {% endcapture %}
 {% else %}
-{% capture maven_pom_template %}
-<dependencies>
-    <dependency>
-        <groupId>{@= groupId @}</groupId>
-        <artifactId>{@= artifactId @}</artifactId>
-        <version>{@= version @}</version>
-    </dependency>
-</dependencies>
-{% endcapture %}
+    {% capture maven_pom_template %}
+    <dependencies>
+        <dependency>
+            <groupId>{@= groupId @}</groupId>
+            <artifactId>{@= artifactId @}</artifactId>
+            <version>{@= version @}</version>
+        </dependency>
+    </dependencies>
+    {% endcapture %}
 {% endif %}
 
 <script type="text/html" id="project-download-maven-widget-template">
