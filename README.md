@@ -1,4 +1,5 @@
 [![npm version](https://badge.fury.io/js/dotize.svg)](https://badge.fury.io/js/dotize)
+[![Bower version](https://badge.fury.io/bo/dotize.svg)](https://badge.fury.io/bo/dotize)
 [![Build Status](https://travis-ci.org/vardars/dotize.svg?branch=master)](https://travis-ci.org/vardars/dotize)
 
 dotize
