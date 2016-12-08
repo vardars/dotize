@@ -1,6 +1,6 @@
 {
   "name": "dotize",
-  "version": "0.1.26",
+  "version": "0.1.27",
   "description": "Convert complex Js object to dot notation Js object",
   "main": "src/dotize.js",
   "directories": {

@@ -1,38 +1,39 @@
-
+﻿
 
   primitive
-    √ number
-    √ string
-    √ boolean
+    √ number
+    √ string
+    √ boolean
 
   primitive with prefix
-    √ number
-    √ string
-    √ boolean
+    √ number
+    √ string
+    √ boolean
 
   null
-    √ without prefix
-    √ with prefix
+    √ without prefix
+    √ with prefix
 
   object
-    √ basic
-    √ complex with child
-    √ complex with Array
+    √ basic
+    √ complex with child
+    √ complex with Array
 
   object with prefix
-    √ basic
-    √ complex with child
-    √ complex with Array
+    √ basic
+    √ complex with child
+    √ complex with Array
 
   Array
-    √ empty
-    √ basic
-    √ with prefix
-    √ Array of Arrays
+    √ empty
+    √ basic
+    √ with prefix
+    √ Array of Arrays
 
   issues
-    √ #6 - weird array
+    √ #6 - weird array
+    √ #10 - Keys prefixed with dot when used with arrays
 
 
-  19 passing (15ms)
+  20 passing (16ms)
 

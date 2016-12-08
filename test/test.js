@@ -206,6 +206,23 @@ var testArray = [
           "[3].array[0]": {},
           "[3].array[1]": [],
         }
+      },
+      {
+        "name": "#10 - Keys prefixed with dot when used with arrays",
+        "source": {
+          "data": [
+            {
+              "obj0key": "obj0val"
+            },
+            {
+              "obj1key": "obj1val"
+            }
+          ]
+        },
+        "target": {
+          "data[0].obj0key": "obj0val",
+          "data[1].obj1key": "obj1val"
+        }
       }
     ]
   },
