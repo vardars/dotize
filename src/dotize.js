@@ -1,4 +1,7 @@
-// https://github.com/vardars/dotize
+// Convert complex js object to dot notation js object
+// url: https://github.com/vardars/dotize
+// author: vardars
+
 var dotize = dotize || {};
 
 dotize.convert = function(obj, prefix) {
@@ -27,7 +30,7 @@ dotize.convert = function(obj, prefix) {
     }
 
     function isEmptyArray(o) {
-        if (Array.isArray(o) && o.length == 0)
+        if (Array.isArray(o) && o.length === 0)
             return true;
         return false;
     }
@@ -41,36 +44,39 @@ dotize.convert = function(obj, prefix) {
             return (prefix ? prefix + "." : "") + field;
     }
 
-    return function recurse(o, p, isArrayItem, isRoot) {
+    return function recurse(o, p, isRoot) {
+        var isArrayItem = Array.isArray(o);
         for (var f in o) {
-            var currentProp = o[f];
-            if (currentProp && typeof currentProp === "object") {
-                if (Array.isArray(currentProp)) {
-                    if (isEmptyArray(currentProp)) {
-                        newObj[getFieldName(f, p, isRoot, true)] = currentProp; // empty array
-                    } else {
-                        newObj = recurse(currentProp, getFieldName(f, p, isRoot, false, true), true); // array
-                    }
-                } else {
-                    if (isArrayItem) {
-                        if (isEmptyObj(currentProp)) {
-                            newObj[getFieldName(f, p, isRoot, true)] = currentProp; // empty object
+            if (o.hasOwnProperty(f)) {
+                var currentProp = o[f];
+                if (currentProp && typeof currentProp === "object") {
+                    if (Array.isArray(currentProp)) {
+                        if (isEmptyArray(currentProp)) {
+                            newObj[getFieldName(f, p, isRoot, true)] = currentProp; // empty array
                         } else {
-                            newObj = recurse(currentProp, getFieldName(f, p, isRoot, true)); // array item object
+                            newObj = recurse(currentProp, getFieldName(f, p, isRoot, false, true), isArrayItem); // array
                         }
                     } else {
-                        if (isEmptyObj(currentProp)) {
-                            newObj[getFieldName(f, p, isRoot)] = currentProp; // empty object
+                        if (isArrayItem) {
+                            if (isEmptyObj(currentProp)) {
+                                newObj[getFieldName(f, p, isRoot, true)] = currentProp; // empty object
+                            } else {
+                                newObj = recurse(currentProp, getFieldName(f, p, isRoot, true)); // array item object
+                            }
                         } else {
-                            newObj = recurse(currentProp, getFieldName(f, p, isRoot)); // object
+                            if (isEmptyObj(currentProp)) {
+                                newObj[getFieldName(f, p, isRoot)] = currentProp; // empty object
+                            } else {
+                                newObj = recurse(currentProp, getFieldName(f, p, isRoot)); // object
+                            }
                         }
                     }
-                }
-            } else {
-                if (isArrayItem || isNumber(f)) {
-                    newObj[getFieldName(f, p, isRoot, true)] = currentProp; // array item primitive
                 } else {
-                    newObj[getFieldName(f, p, isRoot)] = currentProp; // primitive
+                    if (isArrayItem || isNumber(f)) {
+                        newObj[getFieldName(f, p, isRoot, true)] = currentProp; // array item primitive
+                    } else {
+                        newObj[getFieldName(f, p, isRoot)] = currentProp; // primitive
+                    }
                 }
             }
         }
@@ -79,7 +85,7 @@ dotize.convert = function(obj, prefix) {
             return obj;
 
         return newObj;
-    }(obj, prefix, Array.isArray(obj), true);
+    }(obj, prefix, true);
 };
 
 if (typeof module != "undefined") {
