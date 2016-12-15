@@ -4,3 +4,5 @@ node_js:
 before_script:
   - npm install -g mocha
 script: mocha test/test.js
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
