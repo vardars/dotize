@@ -15,7 +15,10 @@
     √ with prefix
 
   object
+    √ empty
     √ basic
+    √ basic with empty object field
+    √ basic with empty array field
     √ complex with child
     √ complex with Array
 
@@ -34,6 +37,10 @@
     √ #6 - weird array
     √ #10 - Keys prefixed with dot when used with arrays
 
+  json.org examples
+    √ example 1
+    √ example 2
 
-  20 passing (16ms)
+
+  25 passing (15ms)
 

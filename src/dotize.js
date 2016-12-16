@@ -25,14 +25,6 @@ dotize.convert = function(obj, prefix) {
             if (Object.hasOwnProperty.call(obj, prop))
                 return false;
         }
-
-        return true;
-    }
-
-    function isEmptyArray(o) {
-        if (Array.isArray(o) && o.length === 0)
-            return true;
-        return false;
     }
 
     function getFieldName(field, prefix, isRoot, isArrayItem, isArray) {
@@ -47,42 +39,27 @@ dotize.convert = function(obj, prefix) {
     return function recurse(o, p, isRoot) {
         var isArrayItem = Array.isArray(o);
         for (var f in o) {
-            if (o.hasOwnProperty(f)) {
-                var currentProp = o[f];
-                if (currentProp && typeof currentProp === "object") {
-                    if (Array.isArray(currentProp)) {
-                        if (isEmptyArray(currentProp)) {
-                            newObj[getFieldName(f, p, isRoot, true)] = currentProp; // empty array
-                        } else {
-                            newObj = recurse(currentProp, getFieldName(f, p, isRoot, false, true), isArrayItem); // array
-                        }
-                    } else {
-                        if (isArrayItem) {
-                            if (isEmptyObj(currentProp)) {
-                                newObj[getFieldName(f, p, isRoot, true)] = currentProp; // empty object
-                            } else {
-                                newObj = recurse(currentProp, getFieldName(f, p, isRoot, true)); // array item object
-                            }
-                        } else {
-                            if (isEmptyObj(currentProp)) {
-                                newObj[getFieldName(f, p, isRoot)] = currentProp; // empty object
-                            } else {
-                                newObj = recurse(currentProp, getFieldName(f, p, isRoot)); // object
-                            }
-                        }
-                    }
+            var currentProp = o[f];
+            if (currentProp && typeof currentProp === "object") {
+                if (Array.isArray(currentProp)) {
+                    newObj = recurse(currentProp, getFieldName(f, p, isRoot, false, true), isArrayItem); // array
                 } else {
-                    if (isArrayItem || isNumber(f)) {
-                        newObj[getFieldName(f, p, isRoot, true)] = currentProp; // array item primitive
+                    if (isArrayItem && isEmptyObj(currentProp) == false) {
+                        newObj = recurse(currentProp, getFieldName(f, p, isRoot, true)); // array item object
+                    } else if (isEmptyObj(currentProp) == false) {
+                        newObj = recurse(currentProp, getFieldName(f, p, isRoot)); // object
                     } else {
-                        newObj[getFieldName(f, p, isRoot)] = currentProp; // primitive
+                        //
                     }
+                }
+            } else {
+                if (isArrayItem || isNumber(f)) {
+                    newObj[getFieldName(f, p, isRoot, true)] = currentProp; // array item primitive
+                } else {
+                    newObj[getFieldName(f, p, isRoot)] = currentProp; // primitive
                 }
             }
         }
-
-        if (isEmptyObj(newObj))
-            return obj;
 
         return newObj;
     }(obj, prefix, true);
