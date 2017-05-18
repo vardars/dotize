@@ -65,6 +65,11 @@ dotize.convert = function(obj, prefix) {
     }(obj, prefix, true);
 };
 
+
+dotize.backward = function(obj, prefix) {
+    
+};
+
 if (typeof module != "undefined") {
     module.exports = dotize;
 }
