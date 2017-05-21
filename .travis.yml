@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "2.5.1"
+  - "5.0.0"
 before_script:
   - npm install -g mocha
 script: mocha test/test.js
