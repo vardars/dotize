@@ -309,7 +309,7 @@ for (var i = 0; i < testArray.length; i++) {
 		for (var j = 0; j < testGroup.tests.length; j++) {
 			var testItem = testGroup.tests[j];
 
-			it(testItem.name, function() {
+			it(testItem.name + " backward", function() {
 				var result = null;
 				if (testItem.prefix)
 					result = dotize.backward(testItem.target, testItem.prefix);
