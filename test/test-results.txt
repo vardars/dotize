@@ -1,4 +1,4 @@
-﻿
+
 
   primitive
     √ number
@@ -41,6 +41,204 @@
     √ example 1
     √ example 2
 
+  primitive backward
+    √ number
+    √ string
+    √ boolean
 
-  25 passing (15ms)
+  primitive with prefix backward
+    √ number
+    √ string
+    √ boolean
+
+  null backward
+    √ without prefix
+    √ with prefix
+
+  object backward
+    √ empty
+    √ basic
+    √ basic with empty object field
+    √ basic with empty array field
+    √ complex with child
+    1) complex with Array
+
+  object with prefix backward
+    √ basic
+    √ complex with child
+    2) complex with Array
+
+  Array backward
+    √ empty
+    3) basic
+    4) with prefix
+    5) Array of Arrays
+
+  issues backward
+    6) #6 - weird array
+    7) #10 - Keys prefixed with dot when used with arrays
+
+  json.org examples backward
+    8) example 1
+    9) example 2
+
+
+  41 passing (31ms)
+  9 failing
+
+  1) object backward complex with Array:
+
+      AssertionError: { a: 1, b: { 'b2[0]': 1 } } deepEqual { a: 1, b: { b2: [ 1 ] } }
+      + expected - actual
+
+       {
+         "a": 1
+         "b": {
+      -    "b2[0]": 1
+      +    "b2": [
+      +      1
+      +    ]
+         }
+       }
+      
+      at Context.<anonymous> (test\test.js:318:12)
+
+  2) object with prefix backward complex with Array:
+
+      AssertionError: { a: 1, b: { 'b2[0]': 1 } } deepEqual { a: 1, b: { b2: [ 1 ] } }
+      + expected - actual
+
+       {
+         "a": 1
+         "b": {
+      -    "b2[0]": 1
+      +    "b2": [
+      +      1
+      +    ]
+         }
+       }
+      
+      at Context.<anonymous> (test\test.js:318:12)
+
+  3) Array backward basic:
+     AssertionError: { '[0]': 1 } deepEqual [ 1 ]
+      at Context.<anonymous> (test\test.js:318:12)
+
+  4) Array backward with prefix:
+
+      AssertionError: { 'a[0]': 1 } deepEqual { a: [ 1 ] }
+      + expected - actual
+
+       {
+      -  "a[0]": 1
+      +  "a": [
+      +    1
+      +  ]
+       }
+      
+      at Context.<anonymous> (test\test.js:318:12)
+
+  5) Array backward Array of Arrays:
+     AssertionError: { 'foo[0][0]': 1 } deepEqual [ [ 1 ] ]
+      at Context.<anonymous> (test\test.js:318:12)
+
+  6) issues backward #6 - weird array:
+     AssertionError: { '[0]': { foo: 'bar' },
+  '[1]': 0,
+  '[2]': null,
+  '[3]': { 'array[1]': [] } } deepEqual [ { foo: 'bar' }, 0, null, { null: null, array: [ {}, [] ] } ]
+      at Context.<anonymous> (test\test.js:318:12)
+
+  7) issues backward #10 - Keys prefixed with dot when used with arrays:
+
+      AssertionError: { 'data[0]': { obj0key: 'obj0val' },
+  'data[1]': { obj1key: 'obj1val' } } deepEqual { data: [ { obj0key: 'obj0val' }, { obj1key: 'obj1val' } ] }
+      + expected - actual
+
+       {
+      -  "data[0]": {
+      -    "obj0key": "obj0val"
+      -  }
+      -  "data[1]": {
+      -    "obj1key": "obj1val"
+      -  }
+      +  "data": [
+      +    {
+      +      "obj0key": "obj0val"
+      +    }
+      +    {
+      +      "obj1key": "obj1val"
+      +    }
+      +  ]
+       }
+      
+      at Context.<anonymous> (test\test.js:318:12)
+
+  8) json.org examples backward example 1:
+
+      AssertionError: { glossary: { title: 'example glossary' } } deepEqual { glossary: 
+   { title: 'example glossary',
+     GlossDiv: { title: 'S', GlossList: [Object] } } }
+      + expected - actual
+
+       {
+         "glossary": {
+      +    "GlossDiv": {
+      +      "GlossList": {
+      +        "GlossEntry": {
+      +          "Abbrev": "ISO 8879:1986"
+      +          "Acronym": "SGML"
+      +          "GlossDef": {
+      +            "GlossSeeAlso": [
+      +              "GML"
+      +              "XML"
+      +            ]
+      +            "para": "A meta-markup language, used to create markup languages such as DocBook."
+      +          }
+      +          "GlossSee": "markup"
+      +          "GlossTerm": "Standard Generalized Markup Language"
+      +          "ID": "SGML"
+      +          "SortAs": "SGML"
+      +        }
+      +      }
+      +      "title": "S"
+      +    }
+           "title": "example glossary"
+         }
+       }
+      
+      at Context.<anonymous> (test\test.js:318:12)
+
+  9) json.org examples backward example 2:
+
+      AssertionError: { menu: { 'popup.menuitem[2].onclick': 'CloseDoc()' } } deepEqual { menu: { id: 'file', value: 'File', popup: { menuitem: [Object] } } }
+      + expected - actual
+
+       {
+         "menu": {
+      -    "popup.menuitem[2].onclick": "CloseDoc()"
+      +    "id": "file"
+      +    "popup": {
+      +      "menuitem": [
+      +        {
+      +          "onclick": "CreateNewDoc()"
+      +          "value": "New"
+      +        }
+      +        {
+      +          "onclick": "OpenDoc()"
+      +          "value": "Open"
+      +        }
+      +        {
+      +          "onclick": "CloseDoc()"
+      +          "value": "Close"
+      +        }
+      +      ]
+      +    }
+      +    "value": "File"
+         }
+       }
+      
+      at Context.<anonymous> (test\test.js:318:12)
+
+
 
