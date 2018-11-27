@@ -12,17 +12,11 @@ var dotize = {
             if (Object.hasOwnProperty.call(obj, prop))
                 return false;
         }
-
-        return JSON.stringify(obj) === JSON.stringify({});
-    },
-
-    isEmptyArray: function(arr) {
-        return Array.isArray(arr) && arr.length == 0;
     },
 
     getFieldName: function(field, prefix, isRoot, isArrayItem, isArray) {
         if (isArray)
-            return (prefix ? prefix : "") + (dotize.isNumber(field) ? "[" + field + "]" : (isRoot && !prefix ? "" : ".") + field);
+            return (prefix ? prefix : "") + (dotize.isNumber(field) ? "[" + field + "]" : (isRoot ? "" : ".") + field);
         else if (isArrayItem)
             return (prefix ? prefix : "") + "[" + field + "]";
         else
@@ -47,18 +41,14 @@ var dotize = {
                 var currentProp = o[f];
                 if (currentProp && typeof currentProp === "object") {
                     if (Array.isArray(currentProp)) {
-                        if (dotize.isEmptyArray(currentProp) == false){
-                            newObj = recurse(currentProp, dotize.getFieldName(f, p, isRoot, false, true), isArrayItem); // array
-                        } else {
-                            newObj[dotize.getFieldName(f, p, isRoot, false, true)] = currentProp;
-                        }
+                        newObj = recurse(currentProp, dotize.getFieldName(f, p, isRoot, false, true), isArrayItem); // array
                     } else {
                         if (isArrayItem && dotize.isEmptyObj(currentProp) == false) {
                             newObj = recurse(currentProp, dotize.getFieldName(f, p, isRoot, true)); // array item object
                         } else if (dotize.isEmptyObj(currentProp) == false) {
                             newObj = recurse(currentProp, dotize.getFieldName(f, p, isRoot)); // object
-                        } else if (dotize.isEmptyObj(currentProp)) {
-                            newObj[dotize.getFieldName(f, p, isRoot, isArrayItem)] = currentProp;
+                        } else {
+                            //
                         }
                     }
                 } else {
@@ -102,7 +92,7 @@ var dotize = {
                 if (path.length > 0) {
                     var joined = path.join(".");
                     var a = {};
-                    a[joined] = currentProp;
+                    a[currentPath] = currentProp;
                     currentProp = a;
                     //recurse(a, newObj, joined, prefix);
                 }

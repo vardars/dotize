@@ -287,36 +287,36 @@ var testArray = [{
 	}]
 }, ];
 
-[].forEach.call(testArray, function(testGroup, idx){
+for (var i = 0; i < testArray.length; i++) {
+	var testGroup = testArray[i];
+
 	describe(testGroup.name, function() {
-		[].forEach.call(testGroup.tests, function(testItem, idx){
+		for (var j = 0; j < testGroup.tests.length; j++) {
+			var testItem = testGroup.tests[j];
+
 			it(testItem.name, function() {
 				var result = null;
-				
 				if (testItem.prefix)
 					result = dotize.convert(testItem.source, testItem.prefix);
 				else
 					result = dotize.convert(testItem.source);
-
-				assert.deepEqual(result, testItem.target);
+				assert.deepEqual(testItem.target, result);
 			});
-		});
+		};
 	});
-});
 
-[].forEach.call(testArray, function(testGroup, idx){
-	describe(testGroup.name + " backward", function() {
-		[].forEach.call(testGroup.tests, function(testItem, idx){
-			it(testItem.name, function() {
+	describe(testGroup.name, function() {
+		for (var j = 0; j < testGroup.tests.length; j++) {
+			var testItem = testGroup.tests[j];
+
+			it(testItem.name + " backward", function() {
 				var result = null;
-				
 				if (testItem.prefix)
 					result = dotize.backward(testItem.target, testItem.prefix);
 				else
 					result = dotize.backward(testItem.target);
-
-				assert.deepEqual(result, testItem.source);
+				assert.deepEqual(testItem.source, result);
 			});
-		});
+		};
 	});
-});
+};

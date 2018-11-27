@@ -8,7 +8,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "mocha": "^2.5.3"
+    "mocha": "^2.2.5"
   },
   "scripts": {
     "test": "mocha test/test.js"
@@ -24,7 +24,7 @@
     "convert"
   ],
   "author": "Suleyman Vardar <admin@vardars.com> (http://vardars.com)",
-  "license": "Apache-2.0",
+  "license": "apache",
   "bugs": {
     "url": "https://github.com/vardars/dotize/issues"
   },
