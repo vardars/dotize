@@ -304,4 +304,19 @@ for (var i = 0; i < testArray.length; i++) {
 			});
 		};
 	});
+
+	describe(testGroup.name, function() {
+		for (var j = 0; j < testGroup.tests.length; j++) {
+			var testItem = testGroup.tests[j];
+
+			it(testItem.name + " backward", function() {
+				var result = null;
+				if (testItem.prefix)
+					result = dotize.backward(testItem.target, testItem.prefix);
+				else
+					result = dotize.backward(testItem.target);
+				assert.deepEqual(testItem.source, result);
+			});
+		};
+	});
 };
