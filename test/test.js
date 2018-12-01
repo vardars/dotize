@@ -160,6 +160,13 @@ var testArray = [{
 			"[0]": 1
 		}
 	}, {
+		"name": "basic 2",
+		"source": [1,2],
+		"target": {
+			"[0]": 1,
+			"[1]": 2
+		}
+	}, {
 		"name": "with prefix",
 		"prefix": "foo",
 		"source": {

@@ -76,6 +76,8 @@ var dotize = {
 
     backward: function(obj, prefix) {
         var newObj = {};
+        var arrayRegex = /\[([\d]+)\]/;
+        var arrSeperator = "^";
 
         if ((!obj || typeof obj != "object") && !Array.isArray(obj)) {
             if (prefix) {
@@ -85,30 +87,41 @@ var dotize = {
             }
         }
 
-        for (var prop in obj) {
-            var currentProp = obj[prop];
+        for (var tProp in obj) {
+            var tPropVal = obj[tProp];
+            var tPropRepl = tProp.replace(arrayRegex, "."+ arrSeperator +"$1");
 
-            (function recurse(currentProp, o, pr, prefix) {
-                var path = pr.split(".");
+            (function recurse(rPropVal, rObj, rProp, rPrefix) {
+                var path = rProp.split(".");
                 var currentPath = path.shift();
 
-                if (currentPath == prefix)
+                if (currentPath == rPrefix)
                     currentPath = path.shift();
 
                 if (typeof currentPath == "undefined") {
-                    newObj = currentProp;
+                    newObj = rPropVal;
                 }
 
                 if (path.length > 0) {
                     var joined = path.join(".");
-                    var a = {};
-                    a[joined] = currentProp;
-                    currentProp = a;
-                    //recurse(a, newObj, joined, prefix);
+                    rObj[currentPath] = {};
+                    if (joined.indexOf(arrSeperator) == 0){
+                        if (Array.isArray(rObj) == false){
+                            rObj[currentPath] = [];
+                        }
+                    }
+                    recurse(rPropVal, rObj[currentPath], joined, rPrefix);
+                    return;
+                }
+                
+                if (currentPath && currentPath.indexOf(arrSeperator) == 0){
+                    rObj.push(rPropVal);
+                } else {
+                    rObj[currentPath] = rPropVal;
                 }
 
-                o[currentPath] = currentProp;
-            }(currentProp, newObj, prop, prefix));
+                // console.log("currentPath:", currentPath, "rPropVal:", rPropVal, "rObj:", JSON.stringify(rObj));
+            }(tPropVal, newObj, tPropRepl, prefix));
         }
 
         return newObj;
