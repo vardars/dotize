@@ -20,6 +20,16 @@ var dotize = {
         return Array.isArray(arr) && arr.length == 0;
     },
 
+    isNotArray: function(arr) {
+        return Array.isArray(arr) == false;
+    },
+
+    removeEmptyArrayItem: function(arr) {
+        return arr.filter(function (el) {
+            return el != null && el != "";
+        });
+    },
+
     getFieldName: function(field, prefix, isRoot, isArrayItem, isArray) {
         if (isArray)
             return (prefix ? prefix : "") + (dotize.isNumber(field) ? "[" + field + "]" : (isRoot && !prefix ? "" : ".") + field);
@@ -29,9 +39,14 @@ var dotize = {
             return (prefix ? prefix + "." : "") + field;
     },
 
+    startsWith: function(val, valToSearch) {
+        return val.indexOf(valToSearch) == 0;
+    },
+
     convert: function(obj, prefix) {
         var newObj = {};
 
+        // primitives
         if ((!obj || typeof obj != "object") && !Array.isArray(obj)) {
             if (prefix) {
                 newObj[prefix] = obj;
@@ -47,10 +62,10 @@ var dotize = {
                 var currentProp = o[f];
                 if (currentProp && typeof currentProp === "object") {
                     if (Array.isArray(currentProp)) {
-                        if (dotize.isEmptyArray(currentProp) == false){
-                            newObj = recurse(currentProp, dotize.getFieldName(f, p, isRoot, false, true), isArrayItem); // array
-                        } else {
+                        if (dotize.isEmptyArray(currentProp)) {
                             newObj[dotize.getFieldName(f, p, isRoot, false, true)] = currentProp;
+                        } else {
+                            newObj = recurse(currentProp, dotize.getFieldName(f, p, isRoot, false, true), isArrayItem); // array
                         }
                     } else {
                         if (isArrayItem && dotize.isEmptyObj(currentProp) == false) {
@@ -76,10 +91,11 @@ var dotize = {
 
     backward: function(obj, prefix) {
         var newObj = {};
-        var arrayRegex = /\[([\d]+)\]/;
-        var arrSeperator = "^";
+        var arrayRegex = /\[([\d]+)\]/g;
+        var arrSeperator = "^-^";
 
-        if ((!obj || typeof obj != "object") && !Array.isArray(obj)) {
+        // primitives
+        if ((!obj || typeof obj != "object") && dotize.isNotArray(obj)) {
             if (prefix) {
                 return obj[prefix];
             } else {
@@ -89,38 +105,64 @@ var dotize = {
 
         for (var tProp in obj) {
             var tPropVal = obj[tProp];
-            var tPropRepl = tProp.replace(arrayRegex, "."+ arrSeperator +"$1");
+
+            if (prefix){
+                var prefixRegex = new RegExp("^" + prefix);
+                tProp = tProp.replace(prefixRegex, "");
+            }
+
+            var tPropRepl = tProp.replace(arrayRegex, "." + arrSeperator + "$1");
+
+            // has Array on Root
+            if (dotize.startsWith(tPropRepl, ".") && Array.isArray(newObj) == false){
+                newObj = [];
+            }
 
             (function recurse(rPropVal, rObj, rProp, rPrefix) {
-                var path = rProp.split(".");
-                var currentPath = path.shift();
+                var arrPath = rProp.split(".");
+                arrPath = dotize.removeEmptyArrayItem(arrPath);
+                var currentPath = arrPath.shift();
+                
+                var nextPath = arrPath.shift();
+                if (typeof nextPath !== "undefined"){
+                    arrPath.unshift(nextPath);
+                }
 
-                if (currentPath == rPrefix)
-                    currentPath = path.shift();
+                if (currentPath == rPrefix){
+                    currentPath = arrPath.shift();
+                }
 
                 if (typeof currentPath == "undefined") {
                     newObj = rPropVal;
+                    return;
                 }
 
-                if (path.length > 0) {
-                    var joined = path.join(".");
-                    rObj[currentPath] = {};
-                    if (joined.indexOf(arrSeperator) == 0){
-                        if (Array.isArray(rObj) == false){
-                            rObj[currentPath] = [];
-                        }
+                var isArrayItem = dotize.startsWith(currentPath, arrSeperator);
+                var isArray = false;
+
+                if (typeof nextPath !== "undefined"){
+                    var isArray = dotize.startsWith(nextPath, arrSeperator);
+                }
+
+                // console.log("currentPath:", currentPath, "rPropVal:", rPropVal, "rObj:", JSON.stringify(rObj), "isArrayItem:", isArrayItem);
+                
+                // has multiple levels
+                if (arrPath.length > 0) {
+                    var joined = arrPath.join(".");
+                    if (isArray){
+                        rObj[currentPath] = Array.isArray(rObj[currentPath]) ? rObj[currentPath] : [];
+                    }else {
+                        rObj[currentPath] = {};
                     }
                     recurse(rPropVal, rObj[currentPath], joined, rPrefix);
                     return;
                 }
                 
-                if (currentPath && currentPath.indexOf(arrSeperator) == 0){
+                if (isArrayItem){
                     rObj.push(rPropVal);
                 } else {
                     rObj[currentPath] = rPropVal;
                 }
-
-                // console.log("currentPath:", currentPath, "rPropVal:", rPropVal, "rObj:", JSON.stringify(rObj));
             }(tPropVal, newObj, tPropRepl, prefix));
         }
 

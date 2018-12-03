@@ -36,7 +36,7 @@
 		document.getElementById("convert").addEventListener("click", function(elem){
 			var src = document.getElementById("src").value;
 			var dst = dotize.convert(JSON.parse(src));
-			document.getElementById("dst").value = JSON.stringify(dst);
+			document.getElementById("dst").innerText = JSON.stringify(dst, null, 4);
 		});
 		document.getElementById("backward").addEventListener("click", function(elem){
 			var src = document.getElementById("src").value;

@@ -71,44 +71,64 @@
 
   Array backward
     √ empty
-    1) basic
-    2) basic 2
+    √ basic
+    √ basic 2
     √ with prefix
-    3) Array of Arrays
+    1) Array of Arrays
 
   issues backward
-    4) #6 - weird array
-    5) #10 - Keys prefixed with dot when used with arrays
+    2) #6 - weird array
+    3) #10 - Keys prefixed with dot when used with arrays
 
   json.org examples backward
-    6) example 1
-    7) example 2
+    4) example 1
+    5) example 2
 
 
-  45 passing (32ms)
-  7 failing
+  47 passing (35ms)
+  5 failing
 
-  1) Array backward basic:
-     AssertionError: { '': [ 1 ] } deepEqual [ 1 ]
+  1) Array backward Array of Arrays:
+
+      AssertionError: [ '^-^0': [ 1 ] ] deepEqual [ [ 1 ] ]
+      + expected - actual
+
+      -[]
+      +[
+      +  [
+      +    1
+      +  ]
+      +]
+      
       at Context.<anonymous> (test\test.js:325:12)
 
-  2) Array backward basic 2:
-     AssertionError: { '': [ 2 ] } deepEqual [ 1, 2 ]
+  2) issues backward #6 - weird array:
+
+      AssertionError: [ 0, null, '^-^0': { foo: 'bar' }, '^-^3': { array: [ [] ] } ] deepEqual [ { foo: 'bar' }, 0, null, { null: null, array: [ {}, [] ] } ]
+      + expected - actual
+
+       [
+      +  {
+      +    "foo": "bar"
+      +  }
+         0
+         [null]
+      +  {
+      +    "array": [
+      +      {}
+      +      []
+      +    ]
+      +    "null": [null]
+      +  }
+       ]
+      
       at Context.<anonymous> (test\test.js:325:12)
 
-  3) Array backward Array of Arrays:
-     TypeError: rObj.push is not a function
-      at recurse (src\dotize.js:118:26)
-      at Object.backward (src\dotize.js:124:14)
-      at Context.<anonymous> (test\test.js:321:22)
+  3) issues backward #10 - Keys prefixed with dot when used with arrays:
 
-  4) issues backward #6 - weird array:
-     AssertionError: { '': [ '^3': { 'array[1]': [] } ] } deepEqual [ { foo: 'bar' }, 0, null, { null: null, array: [ {}, [] ] } ]
-      at Context.<anonymous> (test\test.js:325:12)
-
-  5) issues backward #10 - Keys prefixed with dot when used with arrays:
-
-      AssertionError: { data: [ '^1': { obj1key: 'obj1val' } ] } deepEqual { data: [ { obj0key: 'obj0val' }, { obj1key: 'obj1val' } ] }
+      AssertionError: { data: 
+   [ '^-^0': { obj0key: 'obj0val' },
+     '^-^1': { obj1key: 'obj1val' } ] } deepEqual { data: [ { obj0key: 'obj0val' }, { obj1key: 'obj1val' } ] }
       + expected - actual
 
        {
@@ -125,7 +145,7 @@
       
       at Context.<anonymous> (test\test.js:325:12)
 
-  6) json.org examples backward example 1:
+  4) json.org examples backward example 1:
 
       AssertionError: { glossary: { title: 'example glossary' } } deepEqual { glossary: 
    { title: 'example glossary',
@@ -160,7 +180,7 @@
       
       at Context.<anonymous> (test\test.js:325:12)
 
-  7) json.org examples backward example 2:
+  5) json.org examples backward example 2:
 
       AssertionError: { menu: { popup: { menuitem: [Object] } } } deepEqual { menu: { id: 'file', value: 'File', popup: { menuitem: [Object] } } }
       + expected - actual
