@@ -3,11 +3,26 @@
 // author: vardars
 
 var dotize = {
-    isNumber: function(f) {
+    valTypes: {
+        primitive: 1,
+        object: 2,
+        array: 3,
+    },
+
+    getValType: function(val){
+        if ((!val || typeof val != "object") && !Array.isArray(val))
+            return dotize.valTypes.primitive;
+        if (Array.isArray(val))
+            return dotize.valTypes.array;
+        if (typeof val == "object")
+            return dotize.valTypes.object;
+    },
+
+    isNumber: function (f) {
         return !isNaN(parseInt(f));
     },
 
-    isEmptyObj: function(obj) {
+    isEmptyObj: function (obj) {
         for (var prop in obj) {
             if (Object.hasOwnProperty.call(obj, prop))
                 return false;
@@ -16,21 +31,21 @@ var dotize = {
         return JSON.stringify(obj) === JSON.stringify({});
     },
 
-    isEmptyArray: function(arr) {
+    isEmptyArray: function (arr) {
         return Array.isArray(arr) && arr.length == 0;
     },
 
-    isNotArray: function(arr) {
+    isNotArray: function (arr) {
         return Array.isArray(arr) == false;
     },
 
-    removeEmptyArrayItem: function(arr) {
+    removeEmptyArrayItem: function (arr) {
         return arr.filter(function (el) {
             return el != null && el != "";
         });
     },
 
-    getFieldName: function(field, prefix, isRoot, isArrayItem, isArray) {
+    getFieldName: function (field, prefix, isRoot, isArrayItem, isArray) {
         if (isArray)
             return (prefix ? prefix : "") + (dotize.isNumber(field) ? "[" + field + "]" : (isRoot && !prefix ? "" : ".") + field);
         else if (isArrayItem)
@@ -39,11 +54,11 @@ var dotize = {
             return (prefix ? prefix + "." : "") + field;
     },
 
-    startsWith: function(val, valToSearch) {
+    startsWith: function (val, valToSearch) {
         return val.indexOf(valToSearch) == 0;
     },
 
-    convert: function(obj, prefix) {
+    convert: function (obj, prefix) {
         var newObj = {};
 
         // primitives
@@ -89,7 +104,7 @@ var dotize = {
         }(obj, prefix, true);
     },
 
-    backward: function(obj, prefix) {
+    backward: function (obj, prefix) {
         var newObj = {};
         var arrayRegex = /\[([\d]+)\]/g;
         var arrSeperator = "^-^";
@@ -106,7 +121,7 @@ var dotize = {
         for (var tProp in obj) {
             var tPropVal = obj[tProp];
 
-            if (prefix){
+            if (prefix) {
                 var prefixRegex = new RegExp("^" + prefix);
                 tProp = tProp.replace(prefixRegex, "");
             }
@@ -114,21 +129,23 @@ var dotize = {
             var tPropRepl = tProp.replace(arrayRegex, "." + arrSeperator + "$1");
 
             // has Array on Root
-            if (dotize.startsWith(tPropRepl, ".") && Array.isArray(newObj) == false){
+            if (dotize.startsWith(tPropRepl, ".") && Array.isArray(newObj) == false) {
                 newObj = [];
             }
+
+            var valType = dotize.getValType(tPropVal);
 
             (function recurse(rPropVal, rObj, rProp, rPrefix) {
                 var arrPath = rProp.split(".");
                 arrPath = dotize.removeEmptyArrayItem(arrPath);
                 var currentPath = arrPath.shift();
-                
+
                 var nextPath = arrPath.shift();
-                if (typeof nextPath !== "undefined"){
+                if (typeof nextPath !== "undefined") {
                     arrPath.unshift(nextPath);
                 }
 
-                if (currentPath == rPrefix){
+                if (currentPath == rPrefix) {
                     currentPath = arrPath.shift();
                 }
 
@@ -140,25 +157,23 @@ var dotize = {
                 var isArrayItem = dotize.startsWith(currentPath, arrSeperator);
                 var isArray = false;
 
-                if (typeof nextPath !== "undefined"){
+                if (typeof nextPath !== "undefined") {
                     var isArray = dotize.startsWith(nextPath, arrSeperator);
                 }
 
-                // console.log("currentPath:", currentPath, "rPropVal:", rPropVal, "rObj:", JSON.stringify(rObj), "isArrayItem:", isArrayItem);
-                
                 // has multiple levels
                 if (arrPath.length > 0) {
                     var joined = arrPath.join(".");
-                    if (isArray){
+                    if (isArray) {
                         rObj[currentPath] = Array.isArray(rObj[currentPath]) ? rObj[currentPath] : [];
-                    }else {
+                    } else {
                         rObj[currentPath] = {};
                     }
                     recurse(rPropVal, rObj[currentPath], joined, rPrefix);
                     return;
                 }
-                
-                if (isArrayItem){
+
+                if (isArrayItem) {
                     rObj.push(rPropVal);
                 } else {
                     rObj[currentPath] = rPropVal;
