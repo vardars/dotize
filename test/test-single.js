@@ -1,7 +1,8 @@
 var dotize = require("../src/dotize");
 
 var result = dotize.backward({
-    "foo[0][0]": 1
-}, "foo");
+    "a": 1,
+    "b.b2[0]": 1
+});
 
 console.log(JSON.stringify(result));
