@@ -46,6 +46,10 @@ var dotize = {
         return JSON.stringify(obj) === JSON.stringify({});
     },
 
+    isNotObject: function (obj) {
+        return !obj || typeof obj != "object";
+    },
+
     isEmptyArray: function (arr) {
         return Array.isArray(arr) && arr.length == 0;
     },
@@ -121,11 +125,10 @@ var dotize = {
 
     backward: function (obj, prefix) {
         var newObj = {};
-        var arStartRegex = /\[/g;
-        var arEndRegex = /\]/g;
+        var arStartRegex = /\[(\d+)\]/g;
 
         // primitives
-        if ((!obj || typeof obj != "object") && dotize.isNotArray(obj)) {
+        if (dotize.isNotObject(obj) && dotize.isNotArray(obj)) {
             if (prefix) {
                 return obj[prefix];
             } else {
@@ -141,9 +144,7 @@ var dotize = {
                 tProp = tProp.replace(prefixRegex, "");
             }
 
-            var valType = dotize.getValType(tPropVal);
-            tProp = tProp.replace(arStartRegex, ".");
-            tProp = tProp.replace(arEndRegex, "");
+            tProp = tProp.replace(arStartRegex, ".$1");
 
             if (dotize.startsWith(tProp, "."))
                 tProp = tProp.replace(/^\./, "");
@@ -151,16 +152,12 @@ var dotize = {
             var arrPath = tProp.split(".");
             var arrPathTypes = dotize.getPathType(arrPath);
 
-            if (typeof arrPathTypes != "undefined" && arrPathTypes[0] == dotize.valTypes.array)
+            if (typeof arrPathTypes != "undefined" && arrPathTypes[0] == dotize.valTypes.array && typeof newObj == "undefined")
                 newObj = [];
 
-            (function recurse(rPropVal, rObj, rObjPrev) {
+            (function recurse(rPropVal, rObj, rPropValPrev, rObjPrev) {
                 var currentPath = arrPath.shift();
                 var currentPathType = arrPathTypes.shift();
-                var nextPathType = arrPathTypes.unshift();
-
-                if (typeof nextPathType != "undefined")
-                    arrPathTypes.push(nextPathType);
 
                 if (typeof currentPath == "undefined" || currentPath == "") {
                     newObj = rPropVal;
@@ -171,19 +168,24 @@ var dotize = {
 
                 // has multiple levels
                 if (arrPath.length > 0) {
-                    if (isArray) {
-                        rObj[currentPath] = [];
-                    } else {
-                        rObj[currentPath] = {};
+                    if (typeof rObj[currentPath] == "undefined") {
+                        if (isArray) {
+                            rObj[currentPath] = [];
+                        } else {
+                            rObj[currentPath] = {};
+                        }
                     }
-                    recurse(rPropVal, rObj[currentPath], rObj);
+                    recurse(rPropVal, rObj[currentPath], currentPath, rObj);
                     return;
                 }
 
-                if (currentPathType == dotize.valTypes.array) {
+                if (dotize.isNumber(currentPath))
+                    currentPath = parseInt(currentPath);
+
+                if (currentPathType == dotize.valTypes.array && rPropValPrev && rObjPrev) {
                     if (Array.isArray(rObjPrev) == false)
-                        rObjPrev = [];
-                    rObjPrev.push(rPropVal);
+                        rObjPrev[rPropValPrev] = [];
+                    rObjPrev[rPropValPrev].push(rPropVal);
                 } else {
                     rObj[currentPath] = rPropVal;
                 }
