@@ -207,7 +207,7 @@ var dotize = {
                     }
                 }
 
-                console.log(tProp, JSON.stringify(newObj));
+                // console.log(tProp, JSON.stringify(newObj));
             }(tPropVal, newObj));
         }
 
