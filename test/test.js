@@ -193,9 +193,11 @@ var testArray = [{
 				"foo": "bar"
 			},
 			0,
-			null, {
+			null, 
+			{
 				"null": null,
-				"array": [{},
+				"array": [
+					{},
 					[]
 				],
 			}

@@ -4,10 +4,10 @@
 
 var dotize = {
     valTypes: {
-        none: 0,
-        primitive: 1,
-        object: 2,
-        array: 3,
+        none: "NONE",
+        primitive: "PRIM",
+        object: "OBJECT",
+        array: "ARRAY",
     },
 
     getValType: function (val) {
@@ -31,6 +31,10 @@ var dotize = {
                 arrPathTypes.push(dotize.valTypes.object);
         }
         return arrPathTypes;
+    },
+
+    isUndefined: function (obj) {
+        return typeof obj == "undefined";
     },
 
     isNumber: function (f) {
@@ -81,7 +85,7 @@ var dotize = {
         var newObj = {};
 
         // primitives
-        if ((!obj || typeof obj != "object") && !Array.isArray(obj)) {
+        if (dotize.isNotObject(obj) && dotize.isNotArray(obj)) {
             if (prefix) {
                 newObj[prefix] = obj;
                 return newObj;
@@ -152,8 +156,11 @@ var dotize = {
             var arrPath = tProp.split(".");
             var arrPathTypes = dotize.getPathType(arrPath);
 
-            if (typeof arrPathTypes != "undefined" && arrPathTypes[0] == dotize.valTypes.array && typeof newObj == "undefined")
+            if (!dotize.isUndefined(arrPathTypes) && 
+                arrPathTypes[0] == dotize.valTypes.array && 
+                Array.isArray(newObj) == false){
                 newObj = [];
+            }
 
             (function recurse(rPropVal, rObj, rPropValPrev, rObjPrev) {
                 var currentPath = arrPath.shift();
@@ -182,13 +189,25 @@ var dotize = {
                 if (dotize.isNumber(currentPath))
                     currentPath = parseInt(currentPath);
 
-                if (currentPathType == dotize.valTypes.array && rPropValPrev && rObjPrev) {
-                    if (Array.isArray(rObjPrev) == false)
-                        rObjPrev[rPropValPrev] = [];
-                    rObjPrev[rPropValPrev].push(rPropVal);
+                if (currentPathType == dotize.valTypes.array) {
+                    if (Array.isArray(rObj)){
+                        rObj.push(rPropVal);
+                    } else if (rPropValPrev && rObjPrev) {
+                        if (Array.isArray(rObjPrev) == false)
+                            rObjPrev[rPropValPrev] = [];
+                        rObjPrev[rPropValPrev].push(rPropVal);
+                    }
                 } else {
-                    rObj[currentPath] = rPropVal;
+                    if (Array.isArray(rObjPrev)){
+                        var tempObj = {};
+                        tempObj[currentPath] = rPropVal;
+                        rObjPrev[rPropValPrev].push(tempObj);
+                    } else {
+                        rObj[currentPath] = rPropVal;
+                    }
                 }
+
+                console.log(tProp, JSON.stringify(newObj));
             }(tPropVal, newObj));
         }
 
