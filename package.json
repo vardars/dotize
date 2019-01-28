@@ -21,7 +21,8 @@
     "js",
     "json",
     "dot-notation",
-    "convert"
+    "convert",
+    "backward"
   ],
   "author": "Suleyman Vardar <admin@vardars.com> (http://vardars.com)",
   "license": "Apache-2.0",
