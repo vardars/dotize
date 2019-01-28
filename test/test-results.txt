@@ -1,4 +1,4 @@
-﻿
+
 
   primitive
     √ number
@@ -30,6 +30,7 @@
   Array
     √ empty
     √ basic
+    √ basic 2
     √ with prefix
     √ Array of Arrays
 
@@ -41,6 +42,174 @@
     √ example 1
     √ example 2
 
+  primitive backward
+    √ number
+    √ string
+    √ boolean
 
-  25 passing (15ms)
+  primitive with prefix backward
+    √ number
+    √ string
+    √ boolean
+
+  null backward
+    √ without prefix
+    √ with prefix
+
+  object backward
+    √ empty
+    √ basic
+    √ basic with empty object field
+    √ basic with empty array field
+    √ complex with child
+    √ complex with Array
+
+  object with prefix backward
+    √ basic
+    √ complex with child
+    √ complex with Array
+
+  Array backward
+    √ empty
+    √ basic
+    √ basic 2
+    √ with prefix
+    1) Array of Arrays
+
+  issues backward
+    2) #6 - weird array
+    3) #10 - Keys prefixed with dot when used with arrays
+
+  json.org examples backward
+    4) example 1
+    5) example 2
+
+
+  47 passing (35ms)
+  5 failing
+
+  1) Array backward Array of Arrays:
+
+      AssertionError: [ '^-^0': [ 1 ] ] deepEqual [ [ 1 ] ]
+      + expected - actual
+
+      -[]
+      +[
+      +  [
+      +    1
+      +  ]
+      +]
+      
+      at Context.<anonymous> (test\test.js:325:12)
+
+  2) issues backward #6 - weird array:
+
+      AssertionError: [ 0, null, '^-^0': { foo: 'bar' }, '^-^3': { array: [ [] ] } ] deepEqual [ { foo: 'bar' }, 0, null, { null: null, array: [ {}, [] ] } ]
+      + expected - actual
+
+       [
+      +  {
+      +    "foo": "bar"
+      +  }
+         0
+         [null]
+      +  {
+      +    "array": [
+      +      {}
+      +      []
+      +    ]
+      +    "null": [null]
+      +  }
+       ]
+      
+      at Context.<anonymous> (test\test.js:325:12)
+
+  3) issues backward #10 - Keys prefixed with dot when used with arrays:
+
+      AssertionError: { data: 
+   [ '^-^0': { obj0key: 'obj0val' },
+     '^-^1': { obj1key: 'obj1val' } ] } deepEqual { data: [ { obj0key: 'obj0val' }, { obj1key: 'obj1val' } ] }
+      + expected - actual
+
+       {
+      -  "data": []
+      +  "data": [
+      +    {
+      +      "obj0key": "obj0val"
+      +    }
+      +    {
+      +      "obj1key": "obj1val"
+      +    }
+      +  ]
+       }
+      
+      at Context.<anonymous> (test\test.js:325:12)
+
+  4) json.org examples backward example 1:
+
+      AssertionError: { glossary: { title: 'example glossary' } } deepEqual { glossary: 
+   { title: 'example glossary',
+     GlossDiv: { title: 'S', GlossList: [Object] } } }
+      + expected - actual
+
+       {
+         "glossary": {
+      +    "GlossDiv": {
+      +      "GlossList": {
+      +        "GlossEntry": {
+      +          "Abbrev": "ISO 8879:1986"
+      +          "Acronym": "SGML"
+      +          "GlossDef": {
+      +            "GlossSeeAlso": [
+      +              "GML"
+      +              "XML"
+      +            ]
+      +            "para": "A meta-markup language, used to create markup languages such as DocBook."
+      +          }
+      +          "GlossSee": "markup"
+      +          "GlossTerm": "Standard Generalized Markup Language"
+      +          "ID": "SGML"
+      +          "SortAs": "SGML"
+      +        }
+      +      }
+      +      "title": "S"
+      +    }
+           "title": "example glossary"
+         }
+       }
+      
+      at Context.<anonymous> (test\test.js:325:12)
+
+  5) json.org examples backward example 2:
+
+      AssertionError: { menu: { popup: { menuitem: [Object] } } } deepEqual { menu: { id: 'file', value: 'File', popup: { menuitem: [Object] } } }
+      + expected - actual
+
+       {
+         "menu": {
+      +    "id": "file"
+           "popup": {
+      -      "menuitem": []
+      +      "menuitem": [
+      +        {
+      +          "onclick": "CreateNewDoc()"
+      +          "value": "New"
+      +        }
+      +        {
+      +          "onclick": "OpenDoc()"
+      +          "value": "Open"
+      +        }
+      +        {
+      +          "onclick": "CloseDoc()"
+      +          "value": "Close"
+      +        }
+      +      ]
+           }
+      +    "value": "File"
+         }
+       }
+      
+      at Context.<anonymous> (test\test.js:325:12)
+
+
 

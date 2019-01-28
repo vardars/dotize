@@ -1,6 +1,6 @@
 {
   "name": "dotize",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Convert complex Js object to dot notation Js object",
   "main": "src/dotize.js",
   "directories": {
@@ -8,7 +8,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "mocha": "^2.2.5"
+    "mocha": "^2.5.3"
   },
   "scripts": {
     "test": "mocha test/test.js"
@@ -21,10 +21,11 @@
     "js",
     "json",
     "dot-notation",
-    "convert"
+    "convert",
+    "backward"
   ],
   "author": "Suleyman Vardar <admin@vardars.com> (http://vardars.com)",
-  "license": "apache",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/vardars/dotize/issues"
   },

@@ -160,6 +160,13 @@ var testArray = [{
 			"[0]": 1
 		}
 	}, {
+		"name": "basic 2",
+		"source": [1, 2],
+		"target": {
+			"[0]": 1,
+			"[1]": 2
+		}
+	}, {
 		"name": "with prefix",
 		"prefix": "foo",
 		"source": {
@@ -175,7 +182,7 @@ var testArray = [{
 			[1]
 		],
 		"target": {
-			"foo[0][0]": 1,
+			"foo[0][0]": 1
 		}
 	}]
 }, {
@@ -183,15 +190,17 @@ var testArray = [{
 	"tests": [{
 		"name": "#6 - weird array",
 		"source": [{
-				"foo": "bar"
-			},
+			"foo": "bar"
+		},
 			0,
-			null, {
-				"null": null,
-				"array": [{},
-					[]
-				],
-			}
+			null,
+		{
+			"null": null,
+			"array": [
+				{},
+				[]
+			],
+		}
 		],
 		"target": {
 			"[0].foo": "bar",
@@ -285,23 +294,40 @@ var testArray = [{
 			"menu.popup.menuitem[2].onclick": "CloseDoc()"
 		}
 	}]
-}, ];
+},];
 
-for (var i = 0; i < testArray.length; i++) {
-	var testGroup = testArray[i];
-
-	describe(testGroup.name, function() {
-		for (var j = 0; j < testGroup.tests.length; j++) {
-			var testItem = testGroup.tests[j];
-
-			it(testItem.name, function() {
+// convert tests
+[].forEach.call(testArray, function (testGroup, idx) {
+	describe("convert - " + testGroup.name, function () {
+		[].forEach.call(testGroup.tests, function (testItem, idx) {
+			it(testItem.name, function () {
 				var result = null;
+
 				if (testItem.prefix)
 					result = dotize.convert(testItem.source, testItem.prefix);
 				else
 					result = dotize.convert(testItem.source);
-				assert.deepEqual(testItem.target, result);
+
+				assert.deepEqual(result, testItem.target);
 			});
-		};
+		});
 	});
-};
+});
+
+// backward tests
+[].forEach.call(testArray, function (testGroup, idx) {
+	describe("backward - " + testGroup.name, function () {
+		[].forEach.call(testGroup.tests, function (testItem, idx) {
+			it(testItem.name, function () {
+				var result = null;
+
+				if (testItem.prefix)
+					result = dotize.backward(testItem.target, testItem.prefix);
+				else
+					result = dotize.backward(testItem.target);
+
+				assert.deepEqual(result, testItem.source);
+			});
+		});
+	});
+});
