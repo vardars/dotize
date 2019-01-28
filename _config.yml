@@ -1,7 +1,8 @@
 ### Global gh-pages pre-amble
+url: "http://dotize.github.io"
 safe: true
 lsi: false
-pygments: true
+highlighter: rouge
 markdown: redcarpet
 redcarpet:
   extensions: ["no_intra_emphasis", "fenced_code_blocks", "autolink", "tables", "with_toc_data"]
