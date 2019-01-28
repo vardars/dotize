@@ -156,9 +156,10 @@ var dotize = {
             var arrPath = tProp.split(".");
             var arrPathTypes = dotize.getPathType(arrPath);
 
-            if (!dotize.isUndefined(arrPathTypes) && 
-                arrPathTypes[0] == dotize.valTypes.array && 
-                Array.isArray(newObj) == false){
+            // has array on root
+            if (!dotize.isUndefined(arrPathTypes) &&
+                arrPathTypes[0] == dotize.valTypes.array &&
+                Array.isArray(newObj) == false) {
                 newObj = [];
             }
 
@@ -173,8 +174,12 @@ var dotize = {
 
                 var isArray = currentPathType == dotize.valTypes.array;
 
+                if (dotize.isNumber(currentPath))
+                    currentPath = parseInt(currentPath);
+
                 // has multiple levels
                 if (arrPath.length > 0) {
+                    // is not assigned before
                     if (typeof rObj[currentPath] == "undefined") {
                         if (isArray) {
                             rObj[currentPath] = [];
@@ -182,32 +187,18 @@ var dotize = {
                             rObj[currentPath] = {};
                         }
                     }
+
                     recurse(rPropVal, rObj[currentPath], currentPath, rObj);
                     return;
                 }
 
-                if (dotize.isNumber(currentPath))
-                    currentPath = parseInt(currentPath);
-
-                if (currentPathType == dotize.valTypes.array) {
-                    if (Array.isArray(rObj)){
-                        rObj.push(rPropVal);
-                    } else if (rPropValPrev && rObjPrev) {
-                        if (Array.isArray(rObjPrev) == false)
-                            rObjPrev[rPropValPrev] = [];
-                        rObjPrev[rPropValPrev].push(rPropVal);
-                    }
+                if (currentPathType == dotize.valTypes.array && rPropValPrev && rObjPrev) {
+                    if (Array.isArray(rObjPrev[rPropValPrev]) == false)
+                        rObjPrev[rPropValPrev] = [];
+                    rObjPrev[rPropValPrev].push(rPropVal);
                 } else {
-                    if (Array.isArray(rObjPrev)){
-                        var tempObj = {};
-                        tempObj[currentPath] = rPropVal;
-                        rObjPrev[rPropValPrev].push(tempObj);
-                    } else {
-                        rObj[currentPath] = rPropVal;
-                    }
+                    rObj[currentPath] = rPropVal;
                 }
-
-                // console.log(tProp, JSON.stringify(newObj));
             }(tPropVal, newObj));
         }
 

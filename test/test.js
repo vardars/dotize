@@ -161,7 +161,7 @@ var testArray = [{
 		}
 	}, {
 		"name": "basic 2",
-		"source": [1,2],
+		"source": [1, 2],
 		"target": {
 			"[0]": 1,
 			"[1]": 2
@@ -190,17 +190,17 @@ var testArray = [{
 	"tests": [{
 		"name": "#6 - weird array",
 		"source": [{
-				"foo": "bar"
-			},
+			"foo": "bar"
+		},
 			0,
-			null, 
-			{
-				"null": null,
-				"array": [
-					{},
-					[]
-				],
-			}
+			null,
+		{
+			"null": null,
+			"array": [
+				{},
+				[]
+			],
+		}
 		],
 		"target": {
 			"[0].foo": "bar",
@@ -294,14 +294,15 @@ var testArray = [{
 			"menu.popup.menuitem[2].onclick": "CloseDoc()"
 		}
 	}]
-}, ];
+},];
 
-[].forEach.call(testArray, function(testGroup, idx){
-	describe(testGroup.name, function() {
-		[].forEach.call(testGroup.tests, function(testItem, idx){
-			it(testItem.name, function() {
+// convert tests
+[].forEach.call(testArray, function (testGroup, idx) {
+	describe("convert - " + testGroup.name, function () {
+		[].forEach.call(testGroup.tests, function (testItem, idx) {
+			it(testItem.name, function () {
 				var result = null;
-				
+
 				if (testItem.prefix)
 					result = dotize.convert(testItem.source, testItem.prefix);
 				else
@@ -313,12 +314,13 @@ var testArray = [{
 	});
 });
 
-[].forEach.call(testArray, function(testGroup, idx){
-	describe(testGroup.name + " backward", function() {
-		[].forEach.call(testGroup.tests, function(testItem, idx){
-			it(testItem.name, function() {
+// backward tests
+[].forEach.call(testArray, function (testGroup, idx) {
+	describe("backward - " + testGroup.name, function () {
+		[].forEach.call(testGroup.tests, function (testItem, idx) {
+			it(testItem.name, function () {
 				var result = null;
-				
+
 				if (testItem.prefix)
 					result = dotize.backward(testItem.target, testItem.prefix);
 				else
