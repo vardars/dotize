@@ -39,7 +39,7 @@ var dotize = {
 
     isNumber: function (f) {
         return !isNaN(parseInt(f));
-    }
+    },
 
     isEmptyObj: function (obj) {
         for (var prop in obj) {
@@ -75,7 +75,7 @@ var dotize = {
             return (prefix ? prefix : "") + "[" + field + "]";
         else
             return (prefix ? prefix + "." : "") + field;
-    }
+    },
 
     startsWith: function (val, valToSearch) {
         return val.indexOf(valToSearch) == 0;
@@ -115,12 +115,10 @@ var dotize = {
                         }
                     }
                 } else {
-                    if (isArrayItem && isEmptyObj(currentProp) == false) {
-                        newObj = recurse(currentProp, getFieldName(f, p, isRoot, true)); // array item object
-                    } else if (isEmptyObj(currentProp) == false) {
-                        newObj = recurse(currentProp, getFieldName(f, p, isRoot)); // object
+                    if (isArrayItem || dotize.isNumber(f)) {
+                        newObj[dotize.getFieldName(f, p, isRoot, true)] = currentProp; // array item primitive
                     } else {
-                        //
+                        newObj[dotize.getFieldName(f, p, isRoot)] = currentProp; // primitive
                     }
                 }
             }
@@ -138,11 +136,7 @@ var dotize = {
             if (prefix) {
                 return obj[prefix];
             } else {
-                if (isArrayItem || isNumber(f)) {
-                    newObj[getFieldName(f, p, isRoot, true)] = currentProp; // array item primitive
-                } else {
-                    newObj[getFieldName(f, p, isRoot)] = currentProp; // primitive
-                }
+                return obj;
             }
         }
 
@@ -209,8 +203,8 @@ var dotize = {
         }
 
         return newObj;
-    }(obj, prefix, true);
-};
+    }
+}
 
 if (typeof module != "undefined") {
     module.exports = dotize;
