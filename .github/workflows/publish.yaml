@@ -36,22 +36,22 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: yarn build
 
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        if: ${{ github.ref == 'refs/heads/gh-pages' }}
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
-          publish_branch: gh-pages-out
-
-
-      # - name: Setup Pages
-      #   uses: actions/configure-pages@v2
-      # - name: Upload artifact
-      #   uses: actions/upload-pages-artifact@v1
+      # - name: Deploy
+      #   uses: peaceiris/actions-gh-pages@v3
+      #   if: ${{ github.ref == 'refs/heads/gh-pages' }}
       #   with:
-      #     # Upload entire repository
-      #     path: '.'
-      # - name: Deploy to GitHub Pages
-      #   id: deployment
-      #   uses: actions/deploy-pages@v1
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     publish_dir: ./build
+      #     publish_branch: gh-pages-out
+
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v2
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          # Upload entire repository
+          path: './build'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
