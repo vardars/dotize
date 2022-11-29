@@ -25,10 +25,10 @@ function App() {
       <Container>
         <Row>
           <Col>
-            <textarea style={{"width": '100%', "height": "200px"}} onChange={textChanged}></textarea>
+            <textarea className='input-ta' onChange={textChanged}></textarea>
           </Col>
           <Col>
-            <pre style={{"width": '100%', "height": "200px", "border": "1px solid", "padding": "2px 6px"}}>{converted}</pre>
+            <pre className='output-ta'>{converted}</pre>
           </Col>
         </Row>
       </Container>
