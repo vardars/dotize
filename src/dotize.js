@@ -92,6 +92,8 @@ var dotize = {
             } else {
                 return obj;
             }
+        } else if (dotize.isEmptyArray(obj)) {
+            return obj;
         }
 
         return function recurse(o, p, isRoot) {
@@ -138,6 +140,8 @@ var dotize = {
             } else {
                 return obj;
             }
+        } else if (dotize.isEmptyArray(obj)) {
+            return obj;
         }
 
         for (var tProp in obj) {
@@ -172,16 +176,14 @@ var dotize = {
                     return;
                 }
 
-                var isArray = currentPathType == dotize.valTypes.array;
-
-                if (dotize.isNumber(currentPath))
-                    currentPath = parseInt(currentPath);
+                var currentPath = dotize.isNumber(currentPath) ? parseInt(currentPath) : currentPath;
 
                 // has multiple levels
                 if (arrPath.length > 0) {
+                    var nextPathTypeIsArray = arrPathTypes[0] == dotize.valTypes.array;
                     // is not assigned before
                     if (typeof rObj[currentPath] == "undefined") {
-                        if (isArray) {
+                        if (nextPathTypeIsArray) {
                             rObj[currentPath] = [];
                         } else {
                             rObj[currentPath] = {};
