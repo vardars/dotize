@@ -2,7 +2,7 @@
 // url: https://github.com/vardars/dotize
 // author: vardars
 
-var dotize = {
+const dotize = {
     valTypes: {
         none: "NONE",
         primitive: "PRIM",
@@ -208,6 +208,4 @@ var dotize = {
     }
 }
 
-if (typeof module != "undefined") {
-    module.exports = dotize;
-}
+export default dotize;

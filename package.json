@@ -1,6 +1,6 @@
 {
   "name": "dotize",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Convert complex Js object to dot notation Js object",
   "type": "module",
   "source": "src/dotize.js",
@@ -18,10 +18,10 @@
   },
   "devDependencies": {
     "microbundle": "^0.15.1",
-    "mocha": "^2.5.3"
+    "mocha": "^10.8.2"
   },
   "scripts": {
-    "test": "mocha test/test.js",
+    "test": "npx mocha test/test.js",
     "build": "microbundle",
     "dev": "microbundle watch"
   },
