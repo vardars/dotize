@@ -6,12 +6,13 @@
   "source": "src/dotize.js",
   "exports": {
     "types": "./dist/dotize.d.ts",
+    "import": "./dist/dotize.module.mjs",
     "require": "./dist/dotize.cjs",
-    "default": "./dist/dotize.modern.js"
+    "default": "./dist/dotize.module.mjs"
   },
   "types": "./dist/dotize.d.ts",
   "main": "./dist/dotize.cjs",
-  "module": "./dist/dotize.module.js",
+  "module": "./dist/dotize.module.mjs",
   "unpkg": "./dist/dotize.umd.js",
   "directories": {
     "test": "test"
@@ -21,7 +22,7 @@
     "mocha": "^10.8.2"
   },
   "scripts": {
-    "test": "npx mocha test/test.js",
+    "test": "npx mocha test/test.js test/test-esm.mjs",
     "build": "microbundle",
     "dev": "microbundle watch"
   },
