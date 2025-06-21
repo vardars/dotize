@@ -37,7 +37,7 @@ jobs:
          echo always-auth=true >> .npmrc
          echo //npm.pkg.github.com/:_authToken=${{ github.token }} >> .npmrc
       - run: |
-         sed -i '' 's/"name": "dotize",/"name": "@vardars\/dotize",/' package.json
+         sed -i 's/"name": "dotize",/"name": "@vardars\/dotize",/' package.json
       - run: npm ci
       - run: npm publish
         env:
