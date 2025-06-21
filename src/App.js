@@ -1,7 +1,7 @@
 import './App.css';
 import { Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { dotize } from 'dotize';
+import dotize from 'dotize';
 import { useState } from 'react';
 
 function App() {
