@@ -21,3 +21,19 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# IDEs and editors
+.idea
+.vscode/
+# macOS
+.DS_Store
+# Windows
+Thumbs.db
+# Linux
+*~
+# Logs
+*.log
+# Build output
+/dist
+# Temporary files
+/tmp
