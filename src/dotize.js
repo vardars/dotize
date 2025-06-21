@@ -38,7 +38,9 @@ const dotize = {
     },
 
     isNumber: function (f) {
-        return !isNaN(parseInt(f));
+      // strickter number check
+      // see https://stackoverflow.com/a/52986361
+      return !isNaN(parseFloat(f)) && isFinite(f) && f.indexOf('.') === -1;
     },
 
     isEmptyObj: function (obj) {
