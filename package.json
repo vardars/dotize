@@ -1,21 +1,33 @@
 {
   "name": "dotize",
-  "version": "0.3.0",
+  "version": "0.5.0",
   "description": "Convert complex Js object to dot notation Js object",
-  "main": "src/dotize.js",
+  "type": "module",
+  "source": "src/dotize.js",
+  "exports": {
+    "types": "./dist/dotize.d.ts",
+    "require": "./dist/dotize.cjs",
+    "default": "./dist/dotize.modern.js"
+  },
+  "types": "./dist/dotize.d.ts",
+  "main": "./dist/dotize.cjs",
+  "module": "./dist/dotize.module.js",
+  "unpkg": "./dist/dotize.umd.js",
   "directories": {
     "test": "test"
   },
-  "dependencies": {},
   "devDependencies": {
-    "mocha": "^2.5.3"
+    "microbundle": "^0.15.1",
+    "mocha": "^10.8.2"
   },
   "scripts": {
-    "test": "mocha test/test.js"
+    "test": "npx mocha test/test.js",
+    "build": "microbundle",
+    "dev": "microbundle watch"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/vardars/dotize.git"
+    "url": "git+https://github.com/vardars/dotize.git"
   },
   "keywords": [
     "js",

@@ -3,3 +3,4 @@ bower_components/
 coverage/
 npm-debug.log
 .vscode
+package-lock.json

@@ -1,5 +1,5 @@
-var assert = require("assert");
-var dotize = require("../src/dotize.js");
+import assert from "assert";
+import dotize from "../src/dotize.js";
 
 var testArray = [{
 	"name": "primitive",
@@ -297,10 +297,10 @@ var testArray = [{
 },];
 
 // convert tests
-[].forEach.call(testArray, function (testGroup, idx) {
-	describe("convert - " + testGroup.name, function () {
-		[].forEach.call(testGroup.tests, function (testItem, idx) {
-			it(testItem.name, function () {
+testArray.forEach((testGroup) => {
+	describe(`convert - ${testGroup.name}`, () => {
+		testGroup.tests.forEach((testItem) => {
+			it(testItem.name, () => {
 				var result = null;
 
 				if (testItem.prefix)
@@ -315,9 +315,9 @@ var testArray = [{
 });
 
 // backward tests
-[].forEach.call(testArray, function (testGroup, idx) {
+testArray.forEach((testGroup) => {
 	describe("backward - " + testGroup.name, function () {
-		[].forEach.call(testGroup.tests, function (testItem, idx) {
+		testGroup.tests.forEach((testItem) => {
 			it(testItem.name, function () {
 				var result = null;
 
