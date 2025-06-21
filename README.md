@@ -26,12 +26,13 @@ to (Dot notation js object)
 =
     npm install dotize
 
-bower
-=
-    bower install dotize
-
 tests
 =
 
-    npm install
-    npm test
+    # checkout project and
+    npm install && npm test
+
+use in browser
+=
+
+[https://vardars.github.io/dotize/](https://vardars.github.io/dotize/)
