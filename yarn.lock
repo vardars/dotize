@@ -3913,10 +3913,10 @@ dotenv@^10.0.0:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-10.0.0.tgz#3d4227b8fb95f81096cdd2b66653fb2c7085ba81"
   integrity sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==
 
-dotize@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/dotize/-/dotize-0.3.1.tgz#88fb3fa2cdb314f9c3f07c698fe7b55d542881c3"
-  integrity sha512-zEu4JsjzaX0k1eqBZnAHLIUzkvQBohGHu08yGmjdPQsqiTleoJv8QKrr/ZGaB18E3EZegPIN4XADZfcJMxW6xw==
+dotize@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/dotize/-/dotize-0.6.0.tgz#92329058ab83750984c08319d08c15ea88e5bd15"
+  integrity sha512-D2obkulxFLS9GOmT0c475tUcrPblWBHF/HtW/dKm5wLZyBV98QlV2PdRYQScOsuEhouUo3gBiQOZ1EBTib6tWg==
 
 dunder-proto@^1.0.0, dunder-proto@^1.0.1:
   version "1.0.1"

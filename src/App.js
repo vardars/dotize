@@ -1,7 +1,7 @@
 import './App.css';
 import { Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { convert } from 'dotize';
+import { dotize } from 'dotize';
 import { useState } from 'react';
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
   const textChanged = (event) => {
     const inputContent = event.target.value;
     const parsedContent = JSON.parse(inputContent);
-    let x = convert(parsedContent);
+    let x = dotize.convert(parsedContent);
     console.log(x);
     if (x) {
       setConverted(JSON.stringify(x, null, " "));
